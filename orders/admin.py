@@ -7,7 +7,7 @@ from orders.models import Order
 class OrderAdmin(admin.ModelAdmin):
     list_display = ("id", "customer", "carpet_cleaning", "status")
     list_display_links = ("id", )
-    search_fields = ("status", )
+    list_filter = ("status", )
 
 
 admin.site.register(Order, OrderAdmin)
