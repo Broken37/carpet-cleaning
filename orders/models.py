@@ -1,4 +1,3 @@
-from sys import float_repr_style
 from django.db import models
 
 from users.models import CarpetCleaning, User
