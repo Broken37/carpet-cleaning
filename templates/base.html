@@ -1,12 +1,30 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Carpet Cleaning</title>
 
-<head>
-    <title>سامانه قالیشویی</title>
-</head>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/fontawesome.min.css' %}" rel="stylesheet" />
+  </head>
+  <body>
+    {% include 'partials/nav.html' %}
 
-<body>
-    {% block content %}{% endblock content %}
-</body>
+    <div class="container">
 
+      <div class="card mt-4">
+        <h5 class="card-header"><i class="fa fa-bars me-2"></i> Sample Card</h5>
+        <div class="card-body">
+          <p class="card-text">{% lorem 4 b random %}</p>
+        </div>
+      </div>
+
+      {% block content %}{% endblock content %}
+    </div>
+
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+  </body>
 </html>

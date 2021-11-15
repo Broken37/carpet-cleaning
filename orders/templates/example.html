@@ -1,5 +1,24 @@
-{% if message %}
-<p> {{ message }} </p>
-{% else %}
-<p>No messages are available.</p>
-{% endif %}
+{% extends "base.html" %} {% block content %}
+<table class="table table-striped table-hover mt-4 align-middle">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Carpet Cleaning</th>
+      <th>Opens at</th>
+      <th>Closes at</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for i in test_list %}
+    <tr>
+      <th scope="row">1</th>
+      <td>Carpet Cleaning {{ i }}</td>
+      <td>12:00:00</td>
+      <td>23:00:00</td>
+      <td><a class='btn btn-outline-success'>Order</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
