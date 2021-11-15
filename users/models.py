@@ -24,17 +24,29 @@ class User(AbstractUser):
 
 
 class CarpetCleaning(models.Model):
-    name = models.CharField(null=False, blank=False, max_length=50, default='بدون نام')
-    
-    owner = models.ForeignKey(null=True, blank=False, to=User, on_delete=models.CASCADE, related_name='carpet_cleaning')
-    
-    opens_at = models.TimeField(blank=False, null=False, default=datetime.time(12, 0, 0))
-    closes_at = models.TimeField(blank=False, null=False, default=datetime.time(23, 59, 59))
+    name = models.CharField(null=False, blank=False, max_length=50, default="بدون نام")
 
-    address = models.CharField(max_length=255, default='بدون آدرس')
+    owner = models.ForeignKey(
+        null=True,
+        blank=False,
+        to=User,
+        on_delete=models.CASCADE,
+        related_name="carpet_cleaning",
+    )
+
+    opens_at = models.TimeField(
+        blank=False, null=False, default=datetime.time(12, 0, 0)
+    )
+    closes_at = models.TimeField(
+        blank=False, null=False, default=datetime.time(23, 59, 59)
+    )
+
+    address = models.CharField(max_length=255, default="بدون آدرس")
 
     latitude = models.FloatField(default=0)
     longitude = models.FloatField(default=0)
 
     delivery_cost = models.IntegerField(default=0, null=False, blank=False)
 
+    def __str__(self) -> str:
+        return self.name
