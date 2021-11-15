@@ -4,7 +4,7 @@ from django.template import loader
 
 
 def example_view(request):
-    template = loader.get_template("example.html")
+    template = loader.get_template("create.html")
     context = {
         "test_list": list(range(5)),
     }
