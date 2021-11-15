@@ -26,3 +26,5 @@ class Order(models.Model):
 
     recieved_at = models.DateTimeField(null=True, blank=True) # Recieved by carpet cleaning
     delivered_at = models.DateTimeField(null=True, blank=True) # delivered to customer
+
+    address = models.TextField(blank=False, null = False, default="no-address")
