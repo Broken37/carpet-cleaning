@@ -6,6 +6,6 @@ from django.template import loader
 def example_view(request):
     template = loader.get_template("example.html")
     context = {
-        "message": "this is message",
+        "test_list": list(range(5)),
     }
     return HttpResponse(template.render(context, request))
