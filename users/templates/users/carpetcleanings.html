@@ -1,0 +1,22 @@
+{% extends  "base.html" %}
+
+{% block content %}
+
+    {% for carpetcleaning in carpetcleanings %}
+        <div>
+            name: {{carpetcleaning.name}}
+            <br>
+            owner: {{carpetcleaning.owener}}
+            <br>
+            opens_at: {{carpetcleaning.opens_at}}
+            <br>
+            closes_at: {{carpetcleaning.closes_at}}
+            <br>
+            delivery_cost: {{carpetcleaning.delivery_cost}} 
+            <br>
+            <br>
+            <br>
+        </div>
+    {% endfor %}
+
+{% endblock %}
