@@ -9,7 +9,7 @@ class OrderAdmin(admin.ModelAdmin):
     list_display_links = ("id",)
     list_filter = ("status",)
     actions = ["wait_for_response_status", "approve_status", "decline_status", "received_from_client_status", "washing_status",
-               "deliver_to_client_status"]
+               "deliver_to_client_status", "delivered_status"]
 
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
@@ -45,6 +45,10 @@ class OrderAdmin(admin.ModelAdmin):
     @admin.action(description=f'Mark selected orders as {OrderStatus.labels[OrderStatus.delivering_to_client]}')
     def deliver_to_client_status(self, request, queryset):
         queryset.update(status=OrderStatus.delivering_to_client)
+
+    @admin.action(description=f'Mark selected orders as {OrderStatus.labels[OrderStatus.delivered]}')
+    def delivered_status(self, request, queryset):
+        queryset.update(status=OrderStatus.delivered)
 
 
 admin.site.register(Order, OrderAdmin)
