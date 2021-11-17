@@ -24,7 +24,7 @@ class User(AbstractUser):
 
 
 class CarpetCleaning(models.Model):
-    name = models.CharField(null=False, blank=False, max_length=50, default="بدون نام")
+    name = models.CharField(null=False, blank=False, max_length=50, default="No name")
 
     owner = models.ForeignKey(
         null=True,
@@ -41,7 +41,7 @@ class CarpetCleaning(models.Model):
         blank=False, null=False, default=datetime.time(23, 59, 59)
     )
 
-    address = models.CharField(max_length=255, default="بدون آدرس")
+    address = models.CharField(max_length=255, default="No address")
 
     latitude = models.FloatField(default=0)
     longitude = models.FloatField(default=0)
