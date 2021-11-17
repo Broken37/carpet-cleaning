@@ -8,7 +8,8 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = ("id", "customer", "carpet_cleaning", "status")
     list_display_links = ("id",)
     list_filter = ("status",)
-    actions = ["wait_for_response_status", "approve_status", "decline_status", "received_from_client_status", "washing_status"]
+    actions = ["wait_for_response_status", "approve_status", "decline_status", "received_from_client_status", "washing_status",
+               "deliver_to_client_status"]
 
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
@@ -20,15 +21,15 @@ class OrderAdmin(admin.ModelAdmin):
             queryset = queryset.filter(carpet_cleaning__id__in=carpet_cleaning)
 
         return queryset
-    
+
     @admin.action(description=f'Mark selected orders as {OrderStatus.labels[OrderStatus.waiting_for_response]}')
     def wait_for_response_status(self, request, queryset):
         queryset.update(status=OrderStatus.waiting_for_response)
-    
+
     @admin.action(description=f'Mark selected orders as {OrderStatus.labels[OrderStatus.approved]}')
     def approve_status(self, request, queryset):
         queryset.update(status=OrderStatus.approved)
-    
+
     @admin.action(description=f'Mark selected orders as {OrderStatus.labels[OrderStatus.declined]}')
     def decline_status(self, request, queryset):
         queryset.update(status=OrderStatus.declined)
@@ -40,9 +41,10 @@ class OrderAdmin(admin.ModelAdmin):
     @admin.action(description=f'Mark selected orders as {OrderStatus.labels[OrderStatus.washing]}')
     def washing_status(self, request, queryset):
         queryset.update(status=OrderStatus.washing)
-    
 
-    
+    @admin.action(description=f'Mark selected orders as {OrderStatus.labels[OrderStatus.delivering_to_client]}')
+    def deliver_to_client_status(self, request, queryset):
+        queryset.update(status=OrderStatus.delivering_to_client)
 
 
 admin.site.register(Order, OrderAdmin)
