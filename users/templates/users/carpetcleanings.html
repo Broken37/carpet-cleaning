@@ -1,22 +1,31 @@
-{% extends  "base.html" %}
+{% extends "base.html" %} 
 
 {% block content %}
 
+<table class="table table-striped table-hover mt-4 align-middle">
+  <thead>
+    <tr>
+      <th>Carpet Cleaning</th>
+      <th>Owner</th>
+      <th>Opens at</th>
+      <th>Closes at</th>
+      <th>Address</th>
+      <th>Delivery Cost</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
     {% for carpetcleaning in carpetcleanings %}
-        <div>
-            name: {{carpetcleaning.name}}
-            <br>
-            owner: {{carpetcleaning.owener}}
-            <br>
-            opens_at: {{carpetcleaning.opens_at}}
-            <br>
-            closes_at: {{carpetcleaning.closes_at}}
-            <br>
-            delivery_cost: {{carpetcleaning.delivery_cost}} 
-            <br>
-            <br>
-            <br>
-        </div>
+    <tr>
+      <td>{{carpetcleaning.name}}</td>
+      <td>{{carpetcleaning.owner}}</td>
+      <td>{{carpetcleaning.opens_at}}</td>
+      <td>{{carpetcleaning.closes_at}}</td>
+      <td>{{carpetcleaning.address}}</td>
+      <td>{{carpetcleaning.delivery_cost}}</td>
+      <td><a class='btn btn-outline-success'>Order</a></td>
+    </tr>
     {% endfor %}
-
-{% endblock %}
+  </tbody>
+</table>
+{% endblock %} 
