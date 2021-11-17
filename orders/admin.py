@@ -8,7 +8,7 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = ("id", "customer", "carpet_cleaning", "status")
     list_display_links = ("id",)
     list_filter = ("status",)
-    actions = ["approve_status"]
+    actions = ["approve_status", "decline_status"]
 
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
@@ -24,6 +24,11 @@ class OrderAdmin(admin.ModelAdmin):
     @admin.action(description=f'Mark selected orders as {OrderStatus.labels[OrderStatus.approved]}')
     def approve_status(self, request, queryset):
         queryset.update(status=OrderStatus.approved)
+    
+    @admin.action(description=f'Mark selected orders as {OrderStatus.labels[OrderStatus.declined]}')
+    def decline_status(self, request, queryset):
+        queryset.update(status=OrderStatus.declined)
+    
     
 
 
