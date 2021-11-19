@@ -5,12 +5,29 @@ import datetime
 
 
 class UserType(models.IntegerChoices):
+    """
+    A class used to represent user types in system (admin, customer, carpet_cleaning_owner)
+
+    """
+
     admin = 0, ("مدیر")
     customer = 1, ("مشتری")
     carpet_cleaning_owner = 2, ("صاحب قالیشویی")
 
 
 class User(AbstractUser):
+    """
+    A class used for representing different users in system
+
+    Parameters
+    -------
+    phone_regex: String
+        regex to validate user's phone number
+    phone_number: String
+        user's phone number
+    user_type: UserType
+    """
+
     phone_regex = RegexValidator(
         regex=r"^(09)\d{9}$",
         message="phone_number format: 09xxxxxxxxx",
@@ -24,6 +41,27 @@ class User(AbstractUser):
 
 
 class CarpetCleaning(models.Model):
+    """
+    A class for Representing a Carpet cleaning entity of the system
+
+    Parameters
+    -------
+    name: String
+        the name of the carpet cleaning
+    owner: User
+        the owner of the carpet cleaning (user of type carpet_cleaning_owner)
+    opens_at: Date
+        the time when the carpet cleaning opens in day
+    closes_at: Date
+        the time when the carpet cleaning closes in day
+    address: String
+        the address of the carpet cleaning
+    latitude: float
+    longitude: float
+    delivery_cost: Int
+        cost of delivering carpets to carpet cleaning (Toman)
+    """
+
     name = models.CharField(null=False, blank=False, max_length=50, default="No name")
 
     owner = models.ForeignKey(
