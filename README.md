@@ -1,4 +1,4 @@
-# Carpet Cleanin
+# Carpet Cleaning
 
 ## Description
 
