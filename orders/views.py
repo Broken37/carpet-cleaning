@@ -22,7 +22,6 @@ def register_page(request, carpet_cleaning_id):
             carpet_count = number,
             address = address,
             customer = User.objects.first(),
-            carpet_cleaning = CarpetCleaning.objects.get(pk = carpet_cleaning_id),
-            status = 0
+            carpet_cleaning = CarpetCleaning.objects.get(pk = carpet_cleaning_id)
         )
     return render(request, "orders/create.html", {})
