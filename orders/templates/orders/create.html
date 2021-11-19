@@ -1,14 +1,16 @@
 {% extends "base.html" %} {% block content %}
 <hr>
-<form action="#" method="POST">{% csrf_token %}
+<form action="#" method="POST">
+    {% csrf_token %}
     <div class="mb-3">
         <label class="form-label" for="typeNumber">Number of Carpets</label>
-        <input type="number" name = "number" id="typeNumber" class="form-control" min="1" />
+        <input type="number" name="number" id="typeNumber" class="form-control" min="1" />
     </div>
     <div class="mb-3">
         <label for="exampleFormControlTextarea1" class="form-label">Address</label>
-        <textarea class="form-control" name = "address" id="exampleFormControlTextarea1" rows="3" placeholder="Please enter your address"></textarea>
+        <textarea class="form-control" name="address" id="exampleFormControlTextarea1" rows="3"
+            placeholder="Please enter your address"></textarea>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
-{% endblock %} 
+</form>
+{% endblock %}

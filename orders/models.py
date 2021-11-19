@@ -4,6 +4,12 @@ from users.models import CarpetCleaning, User
 
 
 class OrderStatus(models.IntegerChoices):
+    """
+    A class used for representing different status of order flow
+
+
+    """
+
     waiting_for_response = 0, ("منتظر تایید قالیشویی")
     approved = 1, ("تایید شده")
     declined = 2, ("رد شده")
@@ -14,6 +20,32 @@ class OrderStatus(models.IntegerChoices):
 
 
 class Order(models.Model):
+    """
+    A class used to represent a Order
+
+    ...
+
+    Attributes
+    ----------
+    customer : User
+        the customer that created this order
+    carpet_cleaning : CarpetCleaning
+        the carpet cleaning for which the order is created
+    status : OrderStatus
+        status of the order
+    created_at : Date
+        the time when order created
+    carpet_count : Int
+        number of carpets for this order
+    received_at: Date
+        the time when order received by client
+    delivered_at: Date
+        the time when the order is delivered by carpet cleaning owner
+    address: String
+        address of the customer who created this order
+
+    """
+
     customer = models.ForeignKey(
         null=True, blank=False, to=User, on_delete=models.CASCADE, related_name="orders"
     )
