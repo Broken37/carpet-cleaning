@@ -25,4 +25,4 @@ def order_view(request, carpet_cleaning_id):
             customer=User.objects.first(),
             carpet_cleaning=CarpetCleaning.objects.get(pk=carpet_cleaning_id),
         )
-    return render(request, "orders/create.html", {})
+    return render(request, "orders/createOrder.html", {})
