@@ -17,7 +17,6 @@ def register_page(request, carpet_cleaning_id):
     if request.method == "POST":
         number = request.POST.get("number")
         address = request.POST.get("address")
-        print(number, address, carpet_cleaning_id)
         Order.objects.create(
             carpet_count = number,
             address = address,
