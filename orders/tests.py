@@ -1,7 +1,8 @@
 from django.test import TestCase
+from CarpetShops.models import CarpetCleaning
 from orders.models import Order
 
-from users.models import CarpetCleaning, User
+from users.models import User
 from django.urls import reverse
 import random
 
@@ -13,14 +14,19 @@ class OrderTestCase(TestCase):
         self.carpet_cleaning = CarpetCleaning.objects.create()
 
     def test_create_order(self):
-        url = reverse('register_page', kwargs={'carpet_cleaning_id': self.carpet_cleaning.id})
+        url = reverse(
+            "register_page", kwargs={"carpet_cleaning_id": self.carpet_cleaning.id}
+        )
 
         carpet_count = random.randint(1, 20)
-        addr = 'Tehran, Sharif, ...'
-        self.client.post(url, data={
-            'number': carpet_count,
-            'address': addr,
-        })
+        addr = "Tehran, Sharif, ..."
+        self.client.post(
+            url,
+            data={
+                "number": carpet_count,
+                "address": addr,
+            },
+        )
 
         order = Order.objects.first()
         self.assertEqual(order.carpet_count, carpet_count)
