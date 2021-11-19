@@ -1,7 +1,8 @@
 from django.shortcuts import render
+
+from CarpetShops.models import CarpetCleaning
 from .models import Order
 from users.models import User
-from users.models import CarpetCleaning
 
 
 def order_view(request, carpet_cleaning_id):

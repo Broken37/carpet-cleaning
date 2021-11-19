@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from users.models import CarpetCleaning, User, UserType
+from users.models import User, UserType
 from django.contrib.auth.models import Group, Permission
 
 # Register your models here.
@@ -37,16 +37,4 @@ class UserAdmin(admin.ModelAdmin):
         return group
 
 
-class CarpetCleaningAdmin(admin.ModelAdmin):
-    """
-    A class used for django admin representation of CarpetCleaning model
-
-    """
-
-    list_display = ("id", "name", "owner", "opens_at", "closes_at")
-    list_display_links = ("id", "name")
-    search_fields = ("name",)
-
-
 admin.site.register(User, UserAdmin)
-admin.site.register(CarpetCleaning, CarpetCleaningAdmin)

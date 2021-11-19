@@ -1,6 +1,7 @@
 from django.db import models
+from CarpetShops.models import CarpetCleaning
 
-from users.models import CarpetCleaning, User
+from users.models import User
 
 
 class OrderStatus(models.IntegerChoices):
