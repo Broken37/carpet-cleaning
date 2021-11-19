@@ -1,6 +1,11 @@
 # Carpet Cleanin
 
-Coming soon...
+## Description
+
+**Finding a good carpet cleaning** and the **delivery/receiving of carpets** has always been a challenge.
+This online service simplifies these processes for you. You can simply search through the carpet cleanings around you and find the one that most suits you. Then you can order from that carpet cleaning based on your needs (e.g. I have 3 carpets that I want them to be cleaned) and the rest of the process is taken care of automatically (By site admins and carpet cleaning's operator)
+
+---
 
 ## Setup
 
