@@ -9,3 +9,5 @@ def example_view(request):
         "test_list": list(range(5)),
     }
     return HttpResponse(template.render(context, request))
+def register_page(request):
+    return render(request, "create.html", {})
