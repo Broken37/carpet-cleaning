@@ -13,4 +13,9 @@
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+{% if done %}
+<script>
+    alert("order created");
+</script>
+{% endif %}
 {% endblock %}
