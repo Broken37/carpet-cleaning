@@ -5,6 +5,15 @@ from django.contrib.auth.models import Group, Permission
 
 # Register your models here.
 class UserAdmin(admin.ModelAdmin):
+    """
+    A class used for django admin representation of Users model
+
+    Methods
+    -------
+    save_model(request, obj, form, change)
+        assigning carpet owners to CarpetOwner group (creating this group if not added before) for access control
+    """
+
     list_display = ("first_name", "last_name", "id", "phone_number", "user_type")
     list_display_links = ("id", "phone_number", "last_name", "first_name")
     search_fields = ("phone_number", "first_name", "last_name")
@@ -29,6 +38,11 @@ class UserAdmin(admin.ModelAdmin):
 
 
 class CarpetCleaningAdmin(admin.ModelAdmin):
+    """
+    A class used for django admin representation of CarpetCleaning model
+
+    """
+
     list_display = ("id", "name", "owner", "opens_at", "closes_at")
     list_display_links = ("id", "name")
     search_fields = ("name",)
