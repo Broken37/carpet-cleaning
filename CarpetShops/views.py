@@ -6,4 +6,4 @@ from CarpetShops.models import CarpetCleaning
 def getCarpetCleanings(request):
     carpets = CarpetCleaning.objects.all()
     context = {"carpetcleanings": carpets}
-    return render(request, "users/carpetcleanings.html", context)
+    return render(request, "CarpetShops/carpetcleanings.html", context)
