@@ -14,9 +14,10 @@
     </div>
     <button type="submit" class="btn btn-outline-primary">Submit</button>
 </form>
+
 {% if done %}
 <script>
-    alert("order created");
+swal("Success", "Order created successfully", "success");
 </script>
 {% endif %}
 {% endblock %}
