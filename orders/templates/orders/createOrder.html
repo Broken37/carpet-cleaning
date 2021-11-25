@@ -1,21 +1,23 @@
-{% extends "base.html" %} {% block content %}
-<hr>
+{% extends "base.html" %} 
+{% block content %}
+<h5 class='text-white content-title'>Order from: {{ carpet_cleaning.name }}</h5>
 <form action="#" method="POST">
     {% csrf_token %}
-    <div class="mb-3">
-        <label class="form-label" for="typeNumber">Number of Carpets</label>
+    <div class="mb-3 col-2">
+        <label class="form-label text-white" for="typeNumber">Number of Carpets</label>
         <input type="number" name="number" id="typeNumber" class="form-control" min="1" />
     </div>
-    <div class="mb-3">
-        <label for="exampleFormControlTextarea1" class="form-label">Address</label>
+    <div class="mb-4">
+        <label for="exampleFormControlTextarea1" class="form-label text-white">Address</label>
         <textarea class="form-control" name="address" id="exampleFormControlTextarea1" rows="3"
             placeholder="Please enter your address"></textarea>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-outline-primary">Submit</button>
 </form>
+
 {% if done %}
 <script>
-    alert("order created");
+swal("Success", "Order created successfully", "success");
 </script>
 {% endif %}
 {% endblock %}
