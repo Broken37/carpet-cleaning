@@ -5,6 +5,17 @@
 <table class="table table-striped table-hover mb-0 align-middle table-dark">
   <thead>
     <tr>
+      <th><i class='fad fa-bars me-2'></i>Name : <input type="text" id="name-filter" style="width: 140px" value="{{ name_filter }}"></th>
+  <th>
+      <button onclick="myFunction()">Filter</button>
+  </th>
+    </tr>
+  </thead>
+</table>
+<table class="table table-striped table-hover mb-0 align-middle table-dark">
+
+  <thead>
+    <tr>
       <th><i class='fad fa-bars me-2'></i>Carpet Cleaning</th>
       <th><i class='fad fa-user-shield me-2'></i>Owner</th>
       <th><i class='fad fa-clock me-2'></i>Opens at</th>
@@ -28,4 +39,18 @@
     {% endfor %}
   </tbody>
 </table>
-{% endblock %} 
+
+<script>
+  function myFunction() {
+    const urlParams = new URLSearchParams(window.location.search);
+    var name_filter = document.getElementById('name-filter').value;
+    if(name_filter !== ''){
+        urlParams.set('name', name_filter);
+    } else {
+        urlParams.delete('name')
+    }
+
+    window.location.search = urlParams;
+}
+</script>
+{% endblock %}
