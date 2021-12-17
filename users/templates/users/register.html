@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="d-flex flex-row justify-content-center">
+        <div class="">
+            {% if error %}
+                {% if username_unavailable %}
+                    <b> this username has been assigned before. please try another one </b>
+                {% elif duplicate_phone_number %}
+                    <b> this phone number has been used before. please try another one </b>
+                {% else %}
+                    <b> unexpected error occurred! </b>
+                {% endif %}
+            {% endif %}
+            <form class="d-flex flex-column justify-content-center" method="post">
+                <div class="d-flex flex-column justify-content-center">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                </div>
+                <button class="btn btn-outline-primary" type="submit" name="action">Save</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,4 +1,4 @@
-{% extends "base.html" %} 
+{% extends "base.html" %}
 {% block content %}
 <h5 class='text-white content-title'>Order from: {{ carpet_cleaning.name }}</h5>
 <form action="#" method="POST">
@@ -17,7 +17,7 @@
 
 {% if done %}
 <script>
-swal("Success", "Order created successfully", "success");
+    swal("Success", "Order created successfully", "success");
 </script>
 {% endif %}
 {% endblock %}

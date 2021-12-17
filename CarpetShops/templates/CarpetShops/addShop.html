@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row card-panel s12">
+            <div class="container">
+                <b> {{ message }} </b>
+                <form class="col s10" method="post">
+                    <div class="">
+                        {% csrf_token %}
+                        {%  for f in form %}
+                            {{ f }}
+                        {% endfor %}
+                    </div>
+                    <button class="btn btn-outline-primary" type="submit" name="action">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

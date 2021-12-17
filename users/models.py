@@ -1,17 +1,16 @@
-from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
+from django.db import models
 
 
 class UserType(models.IntegerChoices):
     """
     A class used to represent user types in system (admin, customer, carpet_cleaning_owner)
-
     """
 
-    admin = 0, ("مدیر")
-    customer = 1, ("مشتری")
-    carpet_cleaning_owner = 2, ("صاحب قالیشویی")
+    admin = 0, "مدیر"
+    customer = 1, "مشتری"
+    carpet_cleaning_owner = 2, "صاحب قالیشویی"
 
 
 class User(AbstractUser):
@@ -37,3 +36,8 @@ class User(AbstractUser):
     user_type = models.IntegerField(
         blank=False, choices=UserType.choices, default=UserType.admin
     )
+
+    def __eq__(self, other):
+        if other:
+            return self.username == other.username
+        return False
