@@ -1,9 +1,10 @@
-from django.db import models
 import datetime
+
+from django.db import models
 
 from users.models import User
 
-# Create your models here.
+
 class CarpetCleaning(models.Model):
     """
     A class for Representing a Carpet cleaning entity of the system
@@ -26,11 +27,10 @@ class CarpetCleaning(models.Model):
         cost of delivering carpets to carpet cleaning (Toman)
     """
 
-    name = models.CharField(null=False, blank=False, max_length=50, default="No name")
+    name = models.CharField(null=False, blank=False,
+                            max_length=50, default="No name")
 
-    owner = models.ForeignKey(
-        null=True,
-        blank=False,
+    owner = models.OneToOneField(
         to=User,
         on_delete=models.CASCADE,
         related_name="carpet_cleaning",

@@ -7,8 +7,6 @@ from users.models import User
 class OrderStatus(models.IntegerChoices):
     """
     A class used for representing different status of order flow
-
-
     """
 
     waiting_for_response = 0, ("منتظر تایید قالیشویی")
@@ -44,7 +42,6 @@ class Order(models.Model):
         the time when the order is delivered by carpet cleaning owner
     address: String
         address of the customer who created this order
-
     """
 
     customer = models.ForeignKey(
@@ -73,6 +70,7 @@ class Order(models.Model):
     recieved_at = models.DateTimeField(
         null=True, blank=True
     )  # Recieved by carpet cleaning
-    delivered_at = models.DateTimeField(null=True, blank=True)  # delivered to customer
+    delivered_at = models.DateTimeField(
+        null=True, blank=True)  # delivered to customer
 
     address = models.TextField(blank=False, null=False, default="no-address")

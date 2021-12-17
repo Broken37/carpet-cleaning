@@ -3,7 +3,7 @@ from django.contrib import admin
 from users.models import User, UserType
 from django.contrib.auth.models import Group, Permission
 
-# Register your models here.
+
 class UserAdmin(admin.ModelAdmin):
     """
     A class used for django admin representation of Users model
@@ -14,7 +14,8 @@ class UserAdmin(admin.ModelAdmin):
         assigning carpet owners to CarpetOwner group (creating this group if not added before) for access control
     """
 
-    list_display = ("first_name", "last_name", "id", "phone_number", "user_type")
+    list_display = ("first_name", "last_name", "id",
+                    "phone_number", "user_type")
     list_display_links = ("id", "phone_number", "last_name", "first_name")
     search_fields = ("phone_number", "first_name", "last_name")
 
@@ -31,7 +32,8 @@ class UserAdmin(admin.ModelAdmin):
 
     @staticmethod
     def createCarpetOwnersGroup():
-        permissions = Permission.objects.filter(content_type__model__contains="order")
+        permissions = Permission.objects.filter(
+            content_type__model__contains="order")
         group = Group.objects.create(name="CarpetOwners")
         group.permissions.set(permissions)
         return group

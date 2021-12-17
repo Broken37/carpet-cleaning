@@ -6,7 +6,6 @@ from CarpetShops.models import CarpetCleaning
 class CarpetCleaningAdmin(admin.ModelAdmin):
     """
     A class used for django admin representation of CarpetCleaning model
-
     """
 
     list_display = ("id", "name", "owner", "opens_at", "closes_at")

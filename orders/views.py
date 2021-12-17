@@ -13,7 +13,6 @@ def order_view(request, carpet_cleaning_id):
         ----------
         carpet_cleaning_id : Int
             id of the carpet cleaning for which order should be created
-
     """
     carpet_cleaning = CarpetCleaning.objects.get(pk=carpet_cleaning_id)
     if request.method == "POST":
