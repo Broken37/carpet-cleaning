@@ -1,12 +1,12 @@
+from datetime import datetime
+
+from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.views.generic.edit import FormView
 
 from CarpetShops.forms import *
 from CarpetShops.models import CarpetCleaning
-from users.models import User
-from datetime import datetime
-
-from django.db.models import Q
+from users.models import User, UserType
 
 
 def getCarpetCleanings(request, **kwargs):
@@ -47,8 +47,11 @@ class AddShopFormView(FormView):
         longitude = form.cleaned_data['longitude']
         delivery_cost = form.cleaned_data['delivery_cost']
         owner = User.objects.filter(username=owner_username)
+
         if not owner:
             return render(self.request, self.template_name, {"message": "please register first!"})
+        elif owner[0].user_type != UserType.carpet_cleaning_owner:
+            return render(self.request, self.template_name, {"message": "only carpet owners can add a shop!"})
 
         shops = CarpetCleaning.objects.filter(owner=owner[0])
         if shops:
