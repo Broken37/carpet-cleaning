@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+        <div class="row card-panel s12">
+            <div class="container">
+                <form class="col s12 align-center" method="post">
+                    <div class="">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                    </div>
+                    {% if error %}
+                        <div id="error">
+                            {% if user_type_error %}
+                                this is customer login, login in admin panel
+                            {% elif login_error %}
+                                username or password is wrong
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                    <button class="btn btn-outline-primary" type="submit" name="action">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
