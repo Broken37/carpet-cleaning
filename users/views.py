@@ -2,7 +2,7 @@ from django.db.utils import IntegrityError
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic.edit import FormView
-
+from django.contrib.auth import authenticate, login, logout
 from users.forms import *
 from users.models import *
 
@@ -37,3 +37,27 @@ class RegisterFormView(FormView):
             except IntegrityError:
                 return render(self.request, self.template_name, {"error": True, "duplicate_phone_number": True})
             return redirect(reverse("add-shop"))
+
+
+class LoginFormView(FormView):
+    template_name = 'users/login.html'
+    form_class = LoginForm
+    success_url = 'index'
+
+    def form_valid(self, form):
+        username = form.cleaned_data['username']
+        password = form.cleaned_data['password']
+        user = authenticate(self.request, username=username, password=password)
+        if user is not None:
+            if user.user_type != UserType.customer:
+                return render(self.request, "users/login.html", {"error": True, "user_type_error": True})
+            else:
+                login(self.request, user)
+                return redirect("index")
+        else:
+            return render(self.request, "users/login.html", {"error": True, "login_error": True})
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('index')

@@ -19,3 +19,8 @@ class RegisterForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput())
     phone_number = forms.CharField(validators=[phone_regex])
     user_type = forms.ChoiceField(choices=USER_TYPE, label="", initial=1, widget=forms.Select(), required=True)
+
+
+class LoginForm(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput())

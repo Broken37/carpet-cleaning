@@ -25,7 +25,11 @@
             <div class="dropdown">
                 <a class="dropdown-toggle text-white text-decoration-none" href="#" id="navbarDropdown" role="button"
                    data-bs-toggle="dropdown" aria-expanded="false">
-                    John Doe
+                    {% if request.user.is_authenticated %}
+                        {{ request.user.username }}
+                    {% else %}
+                        Welcome
+                    {% endif %}
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark" aria-labelledby="navbarDropdown"
                     style='z-index: 9999;'>
@@ -35,12 +39,13 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item text-danger" href="#"><i class='fad fa-sign-out-alt me-2'></i>
-                            Logout</a></li>
+                        <li><a class="dropdown-item text-danger" href="{% url 'users:logout' %}"><i
+                                class='fad fa-sign-out-alt me-2'></i>Logout</a></li>
                     {% else %}
-                        <li><a class="dropdown-item" href="#"><i class='fad fa-id-card me-2'></i> Login</a></li>
+                        <li><a class="dropdown-item" href="{% url 'users:login' %}"><i
+                                class='fad fa-id-card me-2'></i>Login</a></li>
                         <li><a class="dropdown-item" href="{% url 'users:register' %}"><i
-                                class='fad fa-id-card me-2'></i> Register</a></li>
+                                class='fad fa-id-card me-2'></i>Register</a></li>
                     {% endif %}
                 </ul>
             </div>
