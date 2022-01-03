@@ -7,11 +7,11 @@ from django.views.generic.edit import FormView
 from CarpetShops.forms import *
 from CarpetShops.models import CarpetCleaning
 from users.models import User, UserType
+from orders.models import Order, OrderStatus
 
 
 def getCarpetCleanings(request, **kwargs):
     current_time = datetime.now().time()
-    carpets = None
     open_status = request.GET.get('open_status', 'none')
     if open_status == "none":
         carpets = CarpetCleaning.objects.all()
@@ -21,6 +21,8 @@ def getCarpetCleanings(request, **kwargs):
     elif open_status == "close":
         carpets = CarpetCleaning.objects.filter(
             Q(opens_at__gt=current_time) | Q(closes_at__lt=current_time))
+    else:
+        assert False
 
     name_filter = request.GET.get('name', '')
     if name_filter:
@@ -62,3 +64,16 @@ class AddShopFormView(FormView):
                                   owner=owner[0])
             shop.save()
             return redirect("get-carpet-cleanings")
+
+
+def shop_page_view(request, carpet_cleaning_id):
+    carpet_cleaning = CarpetCleaning.objects.get(pk=carpet_cleaning_id)
+    context = {'shop': carpet_cleaning}
+    if request.user.is_authenticated:
+        username = request.user.username
+        customer_previous_orders = Order.objects.filter(carpet_cleaning_id=carpet_cleaning_id,
+                                                        customer__username=username,
+                                                        status=OrderStatus.delivered)
+        if customer_previous_orders:
+            context["user_has_ordered_from_this_shop"] = True
+    return render(request, "CarpetShops/shopPage.html", context)

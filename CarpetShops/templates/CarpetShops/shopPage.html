@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shop Page</title>
+</head>
+<body>
+{{ shop.name }} <br>
+{{ shop.owner.first_name }} <br>
+{{ shop.owner.last_name }} <br>
+{{ shop.opens_at }} <br>
+{{ shop.closes_at }} <br>
+{{ shop.address }} <br>
+{{ shop.latitude }} <br>
+{{ shop.longitude }} <br>
+{{ shop.delivery_cost }} <br>
+{{ shop.rating }} <br>
+{{ shop.number_of_voters }} <br>
+
+{% if user_has_ordered_from_this_shop %}
+    <a href="https://www.w3schools.com" class='btn btn-outline-primary'>ثبت نظر</a>
+{% endif %}
+
+</body>
+</html>

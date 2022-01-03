@@ -50,5 +50,8 @@ class CarpetCleaning(models.Model):
 
     delivery_cost = models.IntegerField(default=0, null=False, blank=False)
 
+    rating = models.FloatField(default=3.0)
+    number_of_voters = models.IntegerField(default=0)
+
     def __str__(self) -> str:
         return self.name
