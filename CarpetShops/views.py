@@ -3,9 +3,13 @@ from datetime import datetime
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.views.generic.edit import FormView
+from rest_framework.generics import ListAPIView
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.response import Response
 
 from CarpetShops.forms import *
-from CarpetShops.models import CarpetCleaning
+from CarpetShops.models import CarpetCleaning, Review
+from CarpetShops.serializers import ReviewSerializer
 from users.models import User, UserType
 from orders.models import Order, OrderStatus
 
@@ -77,3 +81,34 @@ def shop_page_view(request, carpet_cleaning_id):
         if customer_previous_orders:
             context["user_has_ordered_from_this_shop"] = True
     return render(request, "CarpetShops/shopPage.html", context)
+
+
+class ReviewsPagination(PageNumberPagination):
+    page_size = 10
+    result_key = 'comments'
+
+    def get_paginated_response(self, data, **kwargs):
+        return Response({
+            self.result_key: data,
+            'pagination': {
+                'page': self.page.number,
+                'next_page': self.page.number + 1 if self.page.has_next() else None,
+                'prev_page': self.page.number - 1 if self.page.has_previous() else None,
+                'total_pages': self.page.paginator.num_pages,
+                'page_size': self.page.paginator.per_page,
+            },
+            **kwargs,
+        })
+
+
+class CarpetCleaningAllReviews(ListAPIView):
+    pagination_class = ReviewsPagination
+
+    serializer_class = ReviewSerializer
+
+    def get_queryset(self):
+        return Review.objects.filter(carpet_cleaning=self.carpet_cleaning, comment__isnull=False)
+
+    def list(self, request, carpet_cleaning_id, *args, **kwargs):
+        self.carpet_cleaning = CarpetCleaning.objects.get(pk=carpet_cleaning_id)
+        return super().list(request, carpet_cleaning_id, *args, **kwargs)

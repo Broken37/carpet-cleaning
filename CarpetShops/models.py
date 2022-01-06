@@ -55,3 +55,11 @@ class CarpetCleaning(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+
+class Review(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    carpet_cleaning = models.ForeignKey(CarpetCleaning, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    rate = models.IntegerField()
+    comment = models.CharField(max_length=256, null=True)
