@@ -1,6 +1,10 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" type="text/css" href=" {% static 'css/infinite_scroll.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <meta charset="UTF-8">
     <title>Shop Page</title>
 </head>
@@ -21,5 +25,117 @@
     <a href="https://www.w3schools.com" class='btn btn-outline-primary'>ثبت نظر</a>
 {% endif %}
 
+<div class="container">
+    <h1>نظرات</h1>
+
+    <div class="reviews">
+    </div>
+
+    <div class="loader">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>
 </body>
 </html>
+
+<script>
+    (function () {
+        const reviewsEl = document.querySelector('.reviews');
+        const loaderEl = document.querySelector('.loader');
+        let loading_status = false;
+
+        // get the reviews from API
+        const getReviews = async (page) => {
+            const API_URL = `reviews?page=${page}`;
+            const response = await fetch(API_URL);
+            // handle 404
+            if (!response.ok) {
+                throw new Error(`An error occurred: ${response.status}`);
+            }
+            return await response.json();
+        }
+
+        // show the reviews
+        const showReviews = (reviews) => {
+            reviews.forEach(review => {
+                const reviewEl = document.createElement('blockreview');
+                reviewEl.classList.add('review');
+
+                reviewEl.innerHTML = `${review.comment}`;
+                for (let i = 0; i < review.rate; i++) {
+                    reviewEl.innerHTML += `<span class="fa fa-star checked"></span>`;
+                }
+                for (let i = review.rate; i < 5; i++) {
+                    reviewEl.innerHTML += `<span class="fa fa-star"></span>`;
+                }
+                reviewEl.innerHTML += `<footer>${review.created_at}</footer>`;
+                reviewsEl.appendChild(reviewEl);
+            });
+        };
+
+        const hideLoader = () => {
+            loading_status = false;
+            loaderEl.classList.remove('show');
+        };
+
+        const showLoader = () => {
+            loading_status = true;
+            loaderEl.classList.add('show');
+        };
+
+        const hasMoreReviews = (page, total_pages) => {
+            return total_pages === 0 || page < total_pages;
+        };
+
+        // load reviews
+        const loadReviews = async (page) => {
+
+            // show the loader
+            showLoader();
+
+            // 0.5 second later
+            setTimeout(async () => {
+                try {
+                    // if having more reviews to fetch
+                    // call the API to get reviews
+                    const response = await getReviews(page);
+                    // show reviews
+                    showReviews(response.comments);
+                    // update the total_pages
+                    total_pages = response.pagination.total_pages;
+                } catch (error) {
+                    console.log(error.message);
+                } finally {
+                    hideLoader();
+                }
+            }, 500);
+
+        };
+
+        // control variables
+        let currentPage = 1;
+        let total_pages = 0;
+
+
+        window.addEventListener('scroll', () => {
+            const {
+                scrollTop,
+                scrollHeight,
+                clientHeight
+            } = document.documentElement;
+
+            if (scrollTop + clientHeight >= scrollHeight - 5 &&
+                hasMoreReviews(currentPage, total_pages) && !loading_status) {
+                currentPage++;
+                loadReviews(currentPage);
+            }
+        }, {
+            passive: true
+        });
+
+        // initialize
+        loadReviews(currentPage);
+    })();
+</script>
