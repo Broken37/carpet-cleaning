@@ -22,7 +22,7 @@
 {{ shop.number_of_voters }} <br>
 
 {% if user_has_ordered_from_this_shop %}
-    <a href="https://www.w3schools.com" class='btn btn-outline-primary'>ثبت نظر</a>
+    <a href="{% url 'comment' shop.id %}" class='btn btn-outline-primary'>ثبت نظر</a>
 {% endif %}
 
 <div class="container">
