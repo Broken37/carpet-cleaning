@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from CarpetShops.models import CarpetCleaning
+from CarpetShops.models import CarpetCleaning, Review
 
 
 class CarpetCleaningAdmin(admin.ModelAdmin):
@@ -14,3 +14,4 @@ class CarpetCleaningAdmin(admin.ModelAdmin):
 
 
 admin.site.register(CarpetCleaning, CarpetCleaningAdmin)
+admin.site.register(Review)

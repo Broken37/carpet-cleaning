@@ -87,6 +87,42 @@ def shop_page_view(request, carpet_cleaning_id):
     return render(request, "CarpetShops/shopPage.html", context)
 
 
+def comment(request, carpet_cleaning_id):
+    if request.user.is_authenticated:
+        username = request.user.username
+        customer_previous_orders = Order.objects.filter(carpet_cleaning_id=carpet_cleaning_id,
+                                                        customer__username=username,
+                                                        status=OrderStatus.delivered)
+    if customer_previous_orders:
+        carpet_cleaning = CarpetCleaning.objects.get(pk=carpet_cleaning_id)
+        context = {"shop": carpet_cleaning,}
+
+        return render(request, "CarpetShops/comment.html",context)
+
+    else :
+        return redirect('shop_page', carpet_cleaning_id = carpet_cleaning_id)
+
+
+def makeComment(request, carpet_cleaning_id):
+    carpet_cleaning = CarpetCleaning.objects.get(pk=carpet_cleaning_id)
+    if request.user.is_authenticated:
+        username = request.user.username
+        customer_previous_orders = Order.objects.filter(carpet_cleaning_id=carpet_cleaning_id,
+                                                        customer__username=username,
+                                                        status=OrderStatus.delivered)
+    if customer_previous_orders:
+        print(request.POST)
+        rate = float(request.POST['rate'])
+        text = request.POST['text']
+        carpet_cleaning.rating = (carpet_cleaning.rating * carpet_cleaning.number_of_voters + rate) / (carpet_cleaning.number_of_voters + 1) 
+        carpet_cleaning.number_of_voters = carpet_cleaning.number_of_voters + 1 
+        new_comment = Review(user = request.user, carpet_cleaning = carpet_cleaning, rate = rate, comment = text, created_at = datetime.now())
+        new_comment.save()
+        carpet_cleaning.save()
+    return redirect('shop_page', carpet_cleaning_id = carpet_cleaning_id)
+
+
+
 class ReviewsPagination(PageNumberPagination):
     page_size = 10
     result_key = 'comments'
