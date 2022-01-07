@@ -16,24 +16,28 @@ from orders.models import Order, OrderStatus
 
 def getCarpetCleanings(request, **kwargs):
     current_time = datetime.now().time()
-    open_status = request.GET.get('open_status', 'none')
-    if open_status == "none":
-        carpets = CarpetCleaning.objects.all()
-    elif open_status == "open":
+    open_status = request.GET.get('open_status')
+    if open_status == "open":
         carpets = CarpetCleaning.objects.filter(
             opens_at__lte=current_time, closes_at__gte=current_time)
     elif open_status == "close":
         carpets = CarpetCleaning.objects.filter(
             Q(opens_at__gt=current_time) | Q(closes_at__lt=current_time))
     else:
-        assert False
+        carpets = CarpetCleaning.objects.all()
 
     name_filter = request.GET.get('name', '')
     if name_filter:
         carpets = carpets.filter(name__contains=name_filter)
 
+    sort_by = request.GET.get('sort_by')
+    if sort_by == 'rating':
+        carpets = carpets.order_by('-rating')
+    elif sort_by == 'name':
+        carpets = carpets.order_by('name')
+
     context = {"carpetcleanings": carpets,
-               'name_filter': name_filter, 'open_status': open_status}
+               'name_filter': name_filter, 'open_status': open_status, 'sort_by':sort_by}
     context.update(**kwargs)
     return render(request, "CarpetShops/carpetcleanings.html", context)
 

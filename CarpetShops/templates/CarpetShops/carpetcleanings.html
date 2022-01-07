@@ -6,17 +6,22 @@
         <tr>
             <th><i class='fad fa-bars me-2'></i>Name : <input type="text" class="form-control" aria-label="Small"
                                                               aria-describedby="inputGroup-sizing-sm" id="name-filter"
-                                                              value="{{ name_filter }}"></th>
+                                                              value="{{ name_filter }}" onchange="myFunction()"></th>
             <th>
                 <i class='fad fa-clock me-2'></i>Time : <select class="form-select" aria-label="Default select example"
-                                                                id="open-status">
+                                                                id="open-status" onchange="myFunction()">
                 <option value="none">--</option>
                 <option value="open">Open</option>
                 <option value="close">Close</option>
             </select>
             </th>
             <th>
-                <button class='btn btn-outline-primary' onclick="myFunction()">Filter</button>
+                <i class='fad fa-th-list me-2'></i>Sort By : <select class="form-select" aria-label="Default select example"
+                                                                id="sort-by" onchange="myFunction()">
+                <option value="none">--</option>
+                <option value="name">Name</option>
+                <option value="rating">Rating</option>
+            </select>
             </th>
         </tr>
         </thead>
@@ -32,6 +37,7 @@
             <th><i class='fad fa-clock me-2'></i>Closes at</th>
             <th><i class='fad fa-map-marked me-2'></i>Address</th>
             <th><i class='fad fa-dollar-sign me-2'></i>Delivery Cost</th>
+            <th onclick=""><i class='fad fa-star me-2'></i>Rating</th>
             <th><i class='fad fa-cogs me-2'></i>Action</th>
         </tr>
         </thead>
@@ -44,6 +50,7 @@
                 <td>{{ carpetcleaning.closes_at }}</td>
                 <td>{{ carpetcleaning.address }}</td>
                 <td>{{ carpetcleaning.delivery_cost }}</td>
+                <td>{{ carpetcleaning.rating }}</td>
                 <td>
                     <a href="{% url 'register_page' carpetcleaning.id %}" class='btn btn-outline-primary'>Order</a>
                     <a href="{% url 'shop_page' carpetcleaning.id %}" class='btn btn-outline-primary'>Visit</a>
@@ -63,16 +70,26 @@
             open_status.selectedIndex = 2
         }
 
+        var sort_by_input = "{{ sort_by }}";
+        var sort_by = document.getElementById('sort-by');
+        if (sort_by_input === 'name') {
+            sort_by.selectedIndex = 1
+        } else if (sort_by_input === 'rating') {
+            sort_by.selectedIndex = 2
+        }
+
         function myFunction() {
             const urlParams = new URLSearchParams(window.location.search);
             var name_filter = document.getElementById('name-filter').value;
             var open_status = document.getElementById('open-status').value;
+            var sort_by = document.getElementById('sort-by').value;
             if (name_filter !== '') {
                 urlParams.set('name', name_filter);
             } else {
                 urlParams.delete('name')
             }
             urlParams.set('open_status', open_status);
+            urlParams.set('sort_by', sort_by);
 
             window.location.search = urlParams;
         }
