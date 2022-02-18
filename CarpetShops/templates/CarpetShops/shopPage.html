@@ -1,44 +1,65 @@
-{% load static %}
+{% extends "base.html" %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link rel="stylesheet" type="text/css" href=" {% static 'css/infinite_scroll.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <meta charset="UTF-8">
-    <title>Shop Page</title>
-</head>
-<body>
-{{ shop.name }} <br>
-{{ shop.owner.first_name }} <br>
-{{ shop.owner.last_name }} <br>
-{{ shop.opens_at }} <br>
-{{ shop.closes_at }} <br>
-{{ shop.address }} <br>
-{{ shop.latitude }} <br>
-{{ shop.longitude }} <br>
-{{ shop.delivery_cost }} <br>
-{{ shop.rating }} <br>
-{{ shop.number_of_voters }} <br>
+{% block content %}
+<h1>{{ shop.name }}</h1> <hr>
+<table class="table-pos table table-striped table-hover mb-0 align-middle table-dark">
 
-{% if user_has_ordered_from_this_shop %}
-    <a href="{% url 'comment' shop.id %}" class='btn btn-outline-primary'>ثبت نظر</a>
-{% endif %}
+    <tbody>
+    <tr>
+        <th><i class='fad fa-user-shield me-2'></i>Owner</th>
+        <td>{{ shop.owner.first_name }} {{ shop.owner.last_name }}</td>
+        
+    </tr>
+    <tr>
+        <th><i class='fad fa-clock me-2'></i>Time</th>
+        <td>{{ shop.opens_at }}-{{ shop.closes_at }}</td>
+        
+    </tr>
+    <tr>
+        <th><i class='fad fa-map-marked me-2'></i>Address</th>
+        <td>{{ shop.address }}</td>
+        
+    </tr>
+    <tr>
+        <th><i class='fad fa-map-marked me-2'></i>Geographic address</th>
+        <td>{{ shop.latitude }}:{{ shop.longitude }}</td>
+        
+    </tr>
+    <tr>
+        <th><i class='fad fa-dollar-sign me-2'></i>Delivery cost</th>
+        <td>{{ shop.delivery_cost }} </td>
+        
+    </tr>
+    <tr>
+        <th><i class='fas fa-star me-2'></i>Rate</th>
+        <td>{{ shop.rating }} </td>
+        
+    </tr>
+    <tr>
+        <th><i class='fad fa-map-marked me-2'></i>Vote count</th>
+        <td>{{ shop.number_of_voters }} </td>
+        
+    </tr>
+    </tbody>
+</table>
+<div class="cen">
+    {% if user_has_ordered_from_this_shop %}
+        <a href="{% url 'comment' shop.id %}" class=' btn btn-outline-primary'>Add comment</a>
+    {% endif %}
 
-<div class="container">
-    <h1>نظرات</h1>
+    <div class="container ">
+        <h1>Comments</h1>
 
-    <div class="reviews">
-    </div>
+        <div class="reviews">
+        </div>
 
-    <div class="loader">
-        <div></div>
-        <div></div>
-        <div></div>
+        <div class="loader">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
     </div>
 </div>
-</body>
-</html>
 
 <script>
     (function () {
@@ -62,16 +83,19 @@
             reviews.forEach(review => {
                 const reviewEl = document.createElement('blockreview');
                 reviewEl.classList.add('review');
-
-                reviewEl.innerHTML = `${review.comment}`;
+                reviewEl.innerHTML = `<h4><i class='fad fa-user-shield me-2'></i>${review.user.username}</h4>`
                 for (let i = 0; i < review.rate; i++) {
                     reviewEl.innerHTML += `<span class="fa fa-star checked"></span>`;
                 }
                 for (let i = review.rate; i < 5; i++) {
-                    reviewEl.innerHTML += `<span class="fa fa-star"></span>`;
+                    reviewEl.innerHTML += `<span class="far fa-star"></span>`;
                 }
-                reviewEl.innerHTML += `<footer>${review.created_at}</footer>`;
+                reviewEl.appendChild(document.createElement('br'))
+                reviewEl.innerHTML += `<h5>${review.comment}</5>`;
+                reviewEl.innerHTML += `<footer><i class='fad fa-clock me-2'></i>${review.created_at}</footer>`;
                 reviewsEl.appendChild(reviewEl);
+                const hr = document.createElement('hr');
+                reviewsEl.appendChild(hr);
             });
         };
 
@@ -139,3 +163,11 @@
         loadReviews(currentPage);
     })();
 </script>
+<style>
+    .cen {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+</style>
+{% endblock %}
