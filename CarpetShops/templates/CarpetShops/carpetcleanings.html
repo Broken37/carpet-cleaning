@@ -24,6 +24,14 @@
             </select>
             </th>
         </tr>
+        <tr>
+            <th> X : <input type="number" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+                            id="x-filter" value="{{ x_filter }}" onchange="myFunction()"></th>
+            <th> Y : <input type="number" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+                            id="y-filter" value="{{ y_filter }}" onchange="myFunction()"></th>
+            <th> Radius : <input type="number" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+                                 id="radius-filter" value="{{ radius_filter }}" onchange="myFunction()"></th>
+        </tr>
         </thead>
     </table>
 
@@ -83,10 +91,28 @@
             var name_filter = document.getElementById('name-filter').value;
             var open_status = document.getElementById('open-status').value;
             var sort_by = document.getElementById('sort-by').value;
+            var x_filter = document.getElementById('x-filter').value;
+            var y_filter = document.getElementById('y-filter').value;
+            var radius_filter = document.getElementById('radius-filter').value;
             if (name_filter !== '') {
                 urlParams.set('name', name_filter);
             } else {
                 urlParams.delete('name')
+            }
+            if (x_filter !== '') {
+                urlParams.set('x', x_filter);
+            } else {
+                urlParams.delete('x')
+            }
+            if (y_filter !== '') {
+                urlParams.set('y', y_filter);
+            } else {
+                urlParams.delete('y')
+            }
+            if (radius_filter !== '') {
+                urlParams.set('radius', radius_filter);
+            } else {
+                urlParams.delete('radius')
             }
             urlParams.set('open_status', open_status);
             urlParams.set('sort_by', sort_by);
