@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from django.conf import settings
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.views.generic.edit import FormView
@@ -46,6 +47,9 @@ def getCarpetCleanings(request, **kwargs):
 
     context = {"carpetcleanings": carpets, 'name_filter': name_filter, 'open_status': open_status,
                'sort_by': sort_by, 'x_filter': x, 'y_filter': y, 'radius_filter': radius}
+    webpush_settings = getattr(settings, 'WEBPUSH_SETTINGS', {})
+    vapid_key = webpush_settings.get('VAPID_PUBLIC_KEY')
+    context.update(dict(user=request.user, vapid_key=vapid_key))
     context.update(**kwargs)
     return render(request, "CarpetShops/carpetcleanings.html", context)
 

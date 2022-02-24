@@ -42,7 +42,14 @@ INSTALLED_APPS = [
     "users",
     "orders",
     "CarpetShops",
+    'webpush',
 ]
+
+WEBPUSH_SETTINGS = {
+   "VAPID_PUBLIC_KEY": "BOpOZ1GJB42Vplc4fhmFqrrKwhzJpAg8aky-zgvcwD6Rp_T7bLapagCMp9844jaFTfKEg_SzvTAhM7JK40VSXew",
+   "VAPID_PRIVATE_KEY": "vhBmFg5SmVnkM7UiNyGxTks9ld09NCtXL6z-88d-JEA",
+   "VAPID_ADMIN_EMAIL": "ahmadzafarani2013@gmail.com"
+}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

@@ -36,7 +36,6 @@ class RegisterFormView(FormView):
                 user.save()
             except IntegrityError:
                 return render(self.request, self.template_name, {"error": True, "duplicate_phone_number": True})
-            print(user.user_type)
             if user.user_type == '1':
                 return redirect(reverse("login"))
             else:

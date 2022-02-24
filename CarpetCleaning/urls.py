@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import TemplateView
 
 from users.views import index
 
@@ -24,4 +25,6 @@ urlpatterns = [
     path("orders/", include("orders.urls")),
     path("", include("CarpetShops.urls"), name="CarpetShops"),
     path("users/", include("users.urls")),
+    path('webpush/', include('webpush.urls')),
+    path('sw.js', TemplateView.as_view(template_name='sw.js', content_type='application/x-javascript'))
 ]

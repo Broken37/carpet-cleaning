@@ -6,6 +6,10 @@
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="vapid-key" content="{{ vapid_key }}">
+    {% if user.id %}
+        <meta name="user_id" content="{{ user.id }}">
+    {% endif %}
     <title>
         Carpet Cleaning System
     </title>
@@ -27,6 +31,8 @@
 
     {% endblock content %}
 </div>
+
+   <script src="{% static '/js/registerSw.js' %}"></script>
 </body>
 
 </html>

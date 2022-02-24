@@ -1,4 +1,5 @@
 from django.contrib import admin
+from webpush import send_user_notification
 
 from CarpetShops.models import CarpetCleaning
 from orders.models import Order, OrderStatus
@@ -85,6 +86,17 @@ class OrderAdmin(admin.ModelAdmin):
     )
     def delivered_status(self, request, queryset):
         queryset.update(status=OrderStatus.delivered)
+
+    def save_model(self, request, obj, form, change):
+        status_changed = False
+        if change:
+            order = Order.objects.filter(id=obj.id).first()
+            if order and order.status != obj.status:
+                status_changed = True
+        super().save_model(request, obj, form, change)
+        if status_changed:
+            payload = {'head': 'وضعیت سفارش شما', 'body': order.get_status_display()}
+            send_user_notification(user=order.customer, payload=payload, ttl=1000)
 
 
 admin.site.register(Order, OrderAdmin)
