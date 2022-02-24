@@ -36,13 +36,17 @@ class RegisterFormView(FormView):
                 user.save()
             except IntegrityError:
                 return render(self.request, self.template_name, {"error": True, "duplicate_phone_number": True})
-            return redirect(reverse("add-shop"))
+            print(user.user_type)
+            if user.user_type == '1':
+                return redirect(reverse("login"))
+            else:
+                return redirect(reverse("add-shop"))
 
 
 class LoginFormView(FormView):
     template_name = 'users/login.html'
     form_class = LoginForm
-    success_url = 'index'
+    success_url = 'get-carpet-cleanings'
 
     def form_valid(self, form):
         username = form.cleaned_data['username']
@@ -53,7 +57,7 @@ class LoginFormView(FormView):
                 return render(self.request, "users/login.html", {"error": True, "user_type_error": True})
             else:
                 login(self.request, user)
-                return redirect("index")
+                return redirect("get-carpet-cleanings")
         else:
             return render(self.request, "users/login.html", {"error": True, "login_error": True})
 

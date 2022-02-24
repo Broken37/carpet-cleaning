@@ -22,7 +22,7 @@ def order_view(request, carpet_cleaning_id):
         Order.objects.create(
             carpet_count=number,
             address=address,
-            customer=User.objects.first(),
+            customer=request.user,
             carpet_cleaning=carpet_cleaning,
         )
         return render(request, "orders/createOrder.html", {"done": True, "carpet_cleaning": carpet_cleaning})
