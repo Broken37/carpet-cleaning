@@ -58,7 +58,7 @@
                 <td>{{ carpetcleaning.closes_at }}</td>
                 <td>{{ carpetcleaning.address }}</td>
                 <td>{{ carpetcleaning.delivery_cost }}</td>
-                <td>{{ carpetcleaning.rating }}</td>
+                <td>{{ carpetcleaning.rating|floatformat:"-1" }}</td>
                 <td>
                     <a href="{% url 'register_page' carpetcleaning.id %}" class='btn btn-outline-primary'>Order</a>
                     <a href="{% url 'shop_page' carpetcleaning.id %}" class='btn btn-outline-primary'>Visit</a>
