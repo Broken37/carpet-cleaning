@@ -8,10 +8,10 @@ from utils.string_utils import convert_datetime_to_persian_date
 class ReviewSerializer(serializers.ModelSerializer):
     date_format = '%-d %B %Y'
     create_at_iso = serializers.DateTimeField(read_only=True, source='created_at')
-
+    writer_name = serializers.CharField(source='user.username')
     class Meta:
         model = Review
-        read_only_fields = ['id', 'user', 'carpet_cleaning', 'create_at_iso']
+        read_only_fields = ['id', 'user', 'carpet_cleaning', 'create_at_iso', 'writer_name']
         fields = [*read_only_fields, 'rate', 'comment']
         extra_kwargs = {
             'comment': {'required': False}

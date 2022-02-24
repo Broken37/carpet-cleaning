@@ -81,9 +81,11 @@
         // show the reviews
         const showReviews = (reviews) => {
             reviews.forEach(review => {
+                console.log(review)
+                console.log(review.user)
                 const reviewEl = document.createElement('blockreview');
                 reviewEl.classList.add('review');
-                reviewEl.innerHTML = `<h4><i class='fad fa-user-shield me-2'></i>${review.user.username}</h4>`
+                reviewEl.innerHTML = `<h4><i class='fad fa-user-shield me-2'></i>${review.writer_name}</h4>`
                 for (let i = 0; i < review.rate; i++) {
                     reviewEl.innerHTML += `<span class="fa fa-star checked"></span>`;
                 }
