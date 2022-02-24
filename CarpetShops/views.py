@@ -98,10 +98,12 @@ def shop_page_view(request, carpet_cleaning_id):
 def comment(request, carpet_cleaning_id):
     if request.user.is_authenticated:
         username = request.user.username
-        customer_previous_orders = Order.objects.filter(carpet_cleaning_id=carpet_cleaning_id,
+        customer_previous_orders = Order.objects.filter(carpet_cleaning__id=carpet_cleaning_id,
                                                         customer__username=username,
                                                         status=OrderStatus.delivered)
-    if customer_previous_orders:
+        reviews = Review.objects.filter(carpet_cleaning__id=carpet_cleaning_id,
+                                                        user__username=username)
+    if len(reviews) < len(customer_previous_orders) :
         carpet_cleaning = CarpetCleaning.objects.get(pk=carpet_cleaning_id)
         context = {"shop": carpet_cleaning,}
 
@@ -115,10 +117,12 @@ def makeComment(request, carpet_cleaning_id):
     carpet_cleaning = CarpetCleaning.objects.get(pk=carpet_cleaning_id)
     if request.user.is_authenticated:
         username = request.user.username
-        customer_previous_orders = Order.objects.filter(carpet_cleaning_id=carpet_cleaning_id,
+        customer_previous_orders = Order.objects.filter(carpet_cleaning__id=carpet_cleaning_id,
                                                         customer__username=username,
                                                         status=OrderStatus.delivered)
-    if customer_previous_orders:
+        reviews = Review.objects.filter(carpet_cleaning__id=carpet_cleaning_id,
+                                                        user__username=username)
+    if len(reviews) < len(customer_previous_orders):
         print(request.POST)
         rate = float(request.POST['rate'])
         text = request.POST['text']
