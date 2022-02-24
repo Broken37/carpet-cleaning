@@ -2,15 +2,52 @@
 
 {% block content %}
 
-    <div class="container">
+    <div class="d-flex flex-row justify-content-center">
         <b> {{ message }} </b>
-        <form class="" method="post">
+        <form class="d-flex flex-column justify-content-center" method="post">
             <div class="">
                 {% csrf_token %}
                 {{ form.as_p }}
             </div>
-            <button class="" type="submit" name="action">Save</button>
+            <button class="btn btn-outline-primary" type="submit" name="action">Add</button>
         </form>
     </div>
+    <script>
+        (function () {
+            const lables = document.getElementsByTagName("lable");
+            for (let i = 0; i < lables.length; i++) {
+                lables[i].classList.add("hidden");
+            }
+            const owner = document.getElementById("id_owner_username");
+            owner.classList.add("form-control");
+            owner.placeholder = "Owner username";
+            const name = document.getElementById("id_name");
+            name.classList.add("form-control");
+            name.placeholder = "Name";
+            const open = document.getElementById("id_opens_at");
+            open.classList.add("form-control");
+            open.placeholder = "Opens at";
+            const close = document.getElementById("id_closes_at");
+            close.classList.add("form-control");
+            close.placeholder = "Close at";
+            const address = document.getElementById("id_address");
+            address.classList.add("form-control");
+            address.placeholder = "Address";
+            const latitude = document.getElementById("id_latitude");
+            latitude.classList.add("form-control");
+            latitude.placeholder = "Latitude";
+            const longitude = document.getElementById("id_longitude");
+            longitude.classList.add("form-control");
+            longitude.placeholder = "Longitude";
+            const cost = document.getElementById("id_delivery_cost");
+            cost.classList.add("form-control");
+            cost.placeholder = "Delivery cost";
+        })();
+    </script>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
 
 {% endblock %}
