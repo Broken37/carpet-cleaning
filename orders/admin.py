@@ -1,6 +1,6 @@
 from django.contrib import admin
-from CarpetShops.models import CarpetCleaning
 
+from CarpetShops.models import CarpetCleaning
 from orders.models import Order, OrderStatus
 from users.models import UserType
 

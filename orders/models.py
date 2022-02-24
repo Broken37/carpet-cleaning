@@ -1,6 +1,6 @@
 from django.db import models
-from CarpetShops.models import CarpetCleaning
 
+from CarpetShops.models import CarpetCleaning
 from users.models import User
 
 

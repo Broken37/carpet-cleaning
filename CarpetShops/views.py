@@ -10,8 +10,8 @@ from rest_framework.response import Response
 from CarpetShops.forms import *
 from CarpetShops.models import CarpetCleaning, Review
 from CarpetShops.serializers import ReviewSerializer
-from users.models import User, UserType
 from orders.models import Order, OrderStatus
+from users.models import User, UserType
 
 
 def getCarpetCleanings(request, **kwargs):
@@ -41,8 +41,8 @@ def getCarpetCleanings(request, **kwargs):
     radius = request.GET.get('radius', '')
     if x and y and radius:
         x, y, radius = int(x), int(y), int(radius)
-        carpets = carpets.filter(Q(latitude__gte=y-radius) & Q(latitude__lte=y+radius) &
-                                 Q(longitude__gte=x-radius) & Q(longitude__lte=x+radius))
+        carpets = carpets.filter(Q(latitude__gte=y - radius) & Q(latitude__lte=y + radius) &
+                                 Q(longitude__gte=x - radius) & Q(longitude__lte=x + radius))
 
     context = {"carpetcleanings": carpets, 'name_filter': name_filter, 'open_status': open_status,
                'sort_by': sort_by, 'x_filter': x, 'y_filter': y, 'radius_filter': radius}
@@ -102,15 +102,15 @@ def comment(request, carpet_cleaning_id):
                                                         customer__username=username,
                                                         status=OrderStatus.delivered)
         reviews = Review.objects.filter(carpet_cleaning__id=carpet_cleaning_id,
-                                                        user__username=username)
-    if len(reviews) < len(customer_previous_orders) :
+                                        user__username=username)
+    if len(reviews) < len(customer_previous_orders):
         carpet_cleaning = CarpetCleaning.objects.get(pk=carpet_cleaning_id)
-        context = {"shop": carpet_cleaning,}
+        context = {"shop": carpet_cleaning, }
 
-        return render(request, "CarpetShops/comment.html",context)
+        return render(request, "CarpetShops/comment.html", context)
 
-    else :
-        return redirect('shop_page', carpet_cleaning_id = carpet_cleaning_id)
+    else:
+        return redirect('shop_page', carpet_cleaning_id=carpet_cleaning_id)
 
 
 def makeComment(request, carpet_cleaning_id):
@@ -121,18 +121,19 @@ def makeComment(request, carpet_cleaning_id):
                                                         customer__username=username,
                                                         status=OrderStatus.delivered)
         reviews = Review.objects.filter(carpet_cleaning__id=carpet_cleaning_id,
-                                                        user__username=username)
+                                        user__username=username)
     if len(reviews) < len(customer_previous_orders):
         print(request.POST)
         rate = float(request.POST['rate'])
         text = request.POST['text']
-        carpet_cleaning.rating = (carpet_cleaning.rating * carpet_cleaning.number_of_voters + rate) / (carpet_cleaning.number_of_voters + 1)
+        carpet_cleaning.rating = (carpet_cleaning.rating * carpet_cleaning.number_of_voters + rate) / (
+                    carpet_cleaning.number_of_voters + 1)
         carpet_cleaning.number_of_voters = carpet_cleaning.number_of_voters + 1
-        new_comment = Review(user = request.user, carpet_cleaning = carpet_cleaning, rate = rate, comment = text, created_at = datetime.now())
+        new_comment = Review(user=request.user, carpet_cleaning=carpet_cleaning, rate=rate, comment=text,
+                             created_at=datetime.now())
         new_comment.save()
         carpet_cleaning.save()
-    return redirect('shop_page', carpet_cleaning_id = carpet_cleaning_id)
-
+    return redirect('shop_page', carpet_cleaning_id=carpet_cleaning_id)
 
 
 class ReviewsPagination(PageNumberPagination):

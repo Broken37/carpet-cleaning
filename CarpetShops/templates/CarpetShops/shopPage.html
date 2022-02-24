@@ -1,175 +1,176 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>{{ shop.name }}</h1> <hr>
-<table class="table-pos table table-striped table-hover mb-0 align-middle table-dark">
 
-    <tbody>
-    <tr>
-        <th><i class='fad fa-user-shield me-2'></i>Owner</th>
-        <td>{{ shop.owner.first_name }} {{ shop.owner.last_name }}</td>
-        
-    </tr>
-    <tr>
-        <th><i class='fad fa-clock me-2'></i>Time</th>
-        <td>{{ shop.opens_at }}-{{ shop.closes_at }}</td>
-        
-    </tr>
-    <tr>
-        <th><i class='fad fa-map-marked me-2'></i>Address</th>
-        <td>{{ shop.address }}</td>
-        
-    </tr>
-    <tr>
-        <th><i class='fad fa-map-marked me-2'></i>Geographic address</th>
-        <td>{{ shop.latitude }}:{{ shop.longitude }}</td>
-        
-    </tr>
-    <tr>
-        <th><i class='fad fa-dollar-sign me-2'></i>Delivery cost</th>
-        <td>{{ shop.delivery_cost }} </td>
-        
-    </tr>
-    <tr>
-        <th><i class='fas fa-star me-2'></i>Rate</th>
-        <td>{{ shop.rating|floatformat:"-1" }} </td>
-        
-    </tr>
-    <tr>
-        <th><i class='fad fa-map-marked me-2'></i>Vote count</th>
-        <td>{{ shop.number_of_voters }} </td>
-        
-    </tr>
-    </tbody>
-</table>
-<div class="cen">
-    {% if user_has_ordered_from_this_shop %}
-        <a href="{% url 'comment' shop.id %}" class=' btn btn-outline-primary'>Add comment</a>
-    {% endif %}
+    <h1>{{ shop.name }}</h1>
+    <hr>
 
-    <div class="container ">
-        <h1>Comments</h1>
+    <table class="table-pos table table-striped table-hover mb-0 align-middle table-dark">
+        <tbody>
+        <tr>
+            <th><i class='fad fa-user-shield me-2'></i>Owner</th>
+            <td>{{ shop.owner.first_name }} {{ shop.owner.last_name }}</td>
+        </tr>
 
-        <div class="reviews">
-        </div>
+        <tr>
+            <th><i class='fad fa-clock me-2'></i>Time</th>
+            <td>{{ shop.opens_at }}-{{ shop.closes_at }}</td>
+        </tr>
 
-        <div class="loader">
-            <div></div>
-            <div></div>
-            <div></div>
+        <tr>
+            <th><i class='fad fa-map-marked me-2'></i>Address</th>
+            <td>{{ shop.address }}</td>
+        </tr>
+
+        <tr>
+            <th><i class='fad fa-map-marked me-2'></i>Geographic address</th>
+            <td>{{ shop.latitude }}:{{ shop.longitude }}</td>
+        </tr>
+
+        <tr>
+            <th><i class='fad fa-dollar-sign me-2'></i>Delivery cost</th>
+            <td>{{ shop.delivery_cost }} </td>
+        </tr>
+
+        <tr>
+            <th><i class='fas fa-star me-2'></i>Rate</th>
+            <td>{{ shop.rating|floatformat:"-1" }} </td>
+        </tr>
+
+        <tr>
+            <th><i class='fad fa-map-marked me-2'></i>Vote count</th>
+            <td>{{ shop.number_of_voters }} </td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <div class="cen">
+        {% if user_has_ordered_from_this_shop %}
+            <a href="{% url 'comment' shop.id %}" class=' btn btn-outline-primary'>Add comment</a>
+        {% endif %}
+
+        <div class="container ">
+            <h1>Comments</h1>
+
+            <div class="reviews"></div>
+
+            <div class="loader">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
         </div>
     </div>
-</div>
 
-<script>
-    (function () {
-        const reviewsEl = document.querySelector('.reviews');
-        const loaderEl = document.querySelector('.loader');
-        let loading_status = false;
+    <script>
+        (function () {
+            const reviewsEl = document.querySelector('.reviews');
+            const loaderEl = document.querySelector('.loader');
+            let loading_status = false;
 
-        // get the reviews from API
-        const getReviews = async (page) => {
-            const API_URL = `reviews?page=${page}`;
-            const response = await fetch(API_URL);
-            // handle 404
-            if (!response.ok) {
-                throw new Error(`An error occurred: ${response.status}`);
-            }
-            return await response.json();
-        }
-
-        // show the reviews
-        const showReviews = (reviews) => {
-            reviews.forEach(review => {
-                console.log(review)
-                console.log(review.user)
-                const reviewEl = document.createElement('blockreview');
-                reviewEl.classList.add('review');
-                reviewEl.innerHTML = `<h4><i class='fad fa-user-shield me-2'></i>${review.writer_name}</h4>`
-                for (let i = 0; i < review.rate; i++) {
-                    reviewEl.innerHTML += `<span class="fa fa-star checked"></span>`;
+            // get the reviews from API
+            const getReviews = async (page) => {
+                const API_URL = `reviews?page=${page}`;
+                const response = await fetch(API_URL);
+                // handle 404
+                if (!response.ok) {
+                    throw new Error(`An error occurred: ${response.status}`);
                 }
-                for (let i = review.rate; i < 5; i++) {
-                    reviewEl.innerHTML += `<span class="far fa-star"></span>`;
+                return await response.json();
+            };
+
+            // show the reviews
+            const showReviews = (reviews) => {
+                reviews.forEach(review => {
+                    const reviewEl = document.createElement('blockreview');
+                    reviewEl.classList.add('review');
+                    reviewEl.innerHTML = `<h4><i class='fad fa-user-shield me-2'></i>${review.writer_name}</h4>`
+                    for (let i = 0; i < review.rate; i++) {
+                        reviewEl.innerHTML += `<span class="fa fa-star checked"></span>`;
+                    }
+                    for (let i = review.rate; i < 5; i++) {
+                        reviewEl.innerHTML += `<span class="far fa-star"></span>`;
+                    }
+                    reviewEl.appendChild(document.createElement('br'));
+                    reviewEl.innerHTML += `<h5>${review.comment}</5>`;
+                    reviewEl.innerHTML += `<footer><i class='fad fa-clock me-2'></i>${review.created_at}</footer>`;
+                    reviewsEl.appendChild(reviewEl);
+                    const hr = document.createElement('hr');
+                    reviewsEl.appendChild(hr);
+                });
+            };
+
+            const hideLoader = () => {
+                loading_status = false;
+                loaderEl.classList.remove('show');
+            };
+
+            const showLoader = () => {
+                loading_status = true;
+                loaderEl.classList.add('show');
+            };
+
+            const hasMoreReviews = (page, total_pages) => {
+                return total_pages === 0 || page < total_pages;
+            };
+
+            // load reviews
+            const loadReviews = async (page) => {
+
+                // show the loader
+                showLoader();
+
+                // 0.5 second later
+                setTimeout(async () => {
+                    try {
+                        // if having more reviews to fetch
+                        // call the API to get reviews
+                        const response = await getReviews(page);
+                        // show reviews
+                        showReviews(response.comments);
+                        // update the total_pages
+                        total_pages = response.pagination.total_pages;
+                    } catch (error) {
+                        console.log(error.message);
+                    } finally {
+                        hideLoader();
+                    }
+                }, 500);
+
+            };
+
+            // control variables
+            let currentPage = 1;
+            let total_pages = 0;
+
+
+            window.addEventListener('scroll', () => {
+                const {
+                    scrollTop,
+                    scrollHeight,
+                    clientHeight
+                } = document.documentElement;
+
+                if (scrollTop + clientHeight >= scrollHeight - 5 &&
+                    hasMoreReviews(currentPage, total_pages) && !loading_status) {
+                    currentPage++;
+                    loadReviews(currentPage);
                 }
-                reviewEl.appendChild(document.createElement('br'))
-                reviewEl.innerHTML += `<h5>${review.comment}</5>`;
-                reviewEl.innerHTML += `<footer><i class='fad fa-clock me-2'></i>${review.created_at}</footer>`;
-                reviewsEl.appendChild(reviewEl);
-                const hr = document.createElement('hr');
-                reviewsEl.appendChild(hr);
+            }, {
+                passive: true
             });
-        };
 
-        const hideLoader = () => {
-            loading_status = false;
-            loaderEl.classList.remove('show');
-        };
+            // initialize
+            loadReviews(currentPage);
+        })();
+    </script>
 
-        const showLoader = () => {
-            loading_status = true;
-            loaderEl.classList.add('show');
-        };
-
-        const hasMoreReviews = (page, total_pages) => {
-            return total_pages === 0 || page < total_pages;
-        };
-
-        // load reviews
-        const loadReviews = async (page) => {
-
-            // show the loader
-            showLoader();
-
-            // 0.5 second later
-            setTimeout(async () => {
-                try {
-                    // if having more reviews to fetch
-                    // call the API to get reviews
-                    const response = await getReviews(page);
-                    // show reviews
-                    showReviews(response.comments);
-                    // update the total_pages
-                    total_pages = response.pagination.total_pages;
-                } catch (error) {
-                    console.log(error.message);
-                } finally {
-                    hideLoader();
-                }
-            }, 500);
-
-        };
-
-        // control variables
-        let currentPage = 1;
-        let total_pages = 0;
-
-
-        window.addEventListener('scroll', () => {
-            const {
-                scrollTop,
-                scrollHeight,
-                clientHeight
-            } = document.documentElement;
-
-            if (scrollTop + clientHeight >= scrollHeight - 5 &&
-                hasMoreReviews(currentPage, total_pages) && !loading_status) {
-                currentPage++;
-                loadReviews(currentPage);
-            }
-        }, {
-            passive: true
-        });
-
-        // initialize
-        loadReviews(currentPage);
-    })();
-</script>
-<style>
-    .cen {
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-    }
-</style>
+    <style>
+        .cen {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+        }
+    </style>
 {% endblock %}
